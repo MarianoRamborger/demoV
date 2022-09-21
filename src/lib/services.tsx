@@ -4,14 +4,20 @@ const checkMock = () => {
     return false
 }
 
-export const getA = async () => {
+export const getData = async (lng:number,lat:number) => {
     if (checkMock()) {
 
     } else {
+
        try {
-            console.log("FSSD")
-            const response = await Axios.get(`${process.env.REACT_APP_API_URI}/` )
-            console.log(response)
+            const response = await Axios.get(`${process.env.REACT_APP_API_URI}/get-data`, {
+              params: {
+                lng: lng,
+                lat: lat
+              }
+            })
+            return response.data
+            
         } catch(err) {
             console.log(err)
         }

@@ -1,3 +1,4 @@
-import SectionHeader from "./SectionHeader/SectionHeader";
+import Map from "./Map/Map"
+import MainChart from "./MainChart/MainChart"
 
-export {SectionHeader}
+export {Map, MainChart}

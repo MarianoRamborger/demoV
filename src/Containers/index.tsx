@@ -1,3 +1,4 @@
 import Main from './Main/Main'
+import Dashboard from './Dashboard'
 
-export {Main}
+export {Main, Dashboard }
