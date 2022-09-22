@@ -1,4 +1,5 @@
 import { CircularProgress } from '@mui/material';
+import { AreaChart, CartesianGrid, XAxis, YAxis, Area, Tooltip } from 'recharts';
 
 const MainChart = ({context}) => {
   return (
@@ -6,7 +7,17 @@ const MainChart = ({context}) => {
 
       {context.loadingData 
       ? <CircularProgress color='primary'/>
-      : <div> ASDASDASD </div>} 
+      : <AreaChart width={500} height={300} data={context.weatherData.dailyData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="time" />
+        <YAxis />
+        <Area dataKey="tempAmp" stroke="#8884d8" fill="#8884d8" />
+        <Tooltip />
+        </AreaChart>
+        
+      
+      
+      } 
 
       <style> 
         {`
