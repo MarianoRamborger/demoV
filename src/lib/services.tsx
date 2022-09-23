@@ -2,7 +2,7 @@ import Axios from 'axios'
 import mockWeather from '../lib/mocks/weatherData.json'
 
 const checkMock = () => {
-    return false
+    return true
 }
 
 export const getData = async (lng:number,lat:number) => {

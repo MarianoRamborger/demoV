@@ -1,4 +1,5 @@
 import {createContext, useContext, useReducer } from 'react'
+import { SelectedData } from '../lib/enums/selectedData'
 
 const Ctx = createContext({})
 
@@ -12,7 +13,14 @@ export const CtxProvider = ({children}) => {
           lat: 49.255866 
         },
         loadingData: true,
-        weatherData : {}
+        dataError: false,
+        weatherData : {
+          currentData: [],
+          dailyData: [],
+          hourlyDataByDay: [],
+        },
+        selectedData: SelectedData.Weekly
+        
         
     }
 
@@ -40,6 +48,13 @@ export const CtxProvider = ({children}) => {
             return {
               ...state,
               weatherData: action.data
+            }
+          }
+
+          case "setSelectedData": {
+            return {
+              ...state,
+              selectedData: action.value
             }
           }
 

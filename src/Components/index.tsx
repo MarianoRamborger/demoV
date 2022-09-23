@@ -1,4 +1,6 @@
 import Map from "./Map/Map"
-import MainChart from "./MainChart/MainChart"
+import AreaGraph from "./Graphs/AreaChart"
+import LineGraph from "./Graphs/LineChart"
+import ControlPanel from "./ControlPanel/ControlPanel"
 
-export {Map, MainChart}
+export {Map, ControlPanel, AreaGraph, LineGraph}

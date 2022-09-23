@@ -4,3 +4,9 @@ export interface dailyDay {
   appTempAmp: number[]
 
 }
+
+export interface hourlyDay {
+  date: string,
+  hour: string,
+  temp: number
+}

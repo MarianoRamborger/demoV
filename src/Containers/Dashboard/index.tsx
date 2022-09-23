@@ -1,17 +1,28 @@
 import withDashboard from "./withDashboard"
-import { Map, MainChart } from "../../Components"
+import { Map, ControlPanel } from "../../Components"
+import { SelectedData } from "../../lib/enums/selectedData"
+import {WeeklyView, DailyView, NowView} from './DataViews'
+
 
 const Dashboard = ({context,dispatch}) => {
+  const {loadingData, weatherData, dataError, selectedData} = context
+
 	return (
 		<div className="dashboard-div">  
 
 		<h2> Dashboard </h2>
 
 		<div className="dashboard-comps-div">
-		<Map />
 
-		<MainChart context={context}/>
+      <div className="upper-pannels-div"> 
+        <Map />
+        <ControlPanel dispatch={dispatch} selectedData={selectedData}/>
+      </div>
 
+    {selectedData === SelectedData.Weekly && <WeeklyView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
+    {selectedData === SelectedData.Daily && <DailyView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
+    {selectedData === SelectedData.Now && <NowView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
+      
     <button onClick={()=> {console.log(context)}}> CONTEXT </button>
 
 		</div>
@@ -33,6 +44,12 @@ const Dashboard = ({context,dispatch}) => {
 						flex-flow: row wrap;
 						justify-content: space-around;
 					}
+
+          .upper-pannels-div {
+            width: 100%;
+            display: inherit;
+            justify-content: space-around;
+          }
 
 
 					

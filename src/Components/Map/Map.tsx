@@ -34,8 +34,8 @@ const Map = () => {
     <style>
       {`
       .leaflet-container{
-        width: 350px;
-        height: 350px;
+        width: 550px;
+        height: 250px;
         z-index: 1;
         border-radius: 10px;
       } 
