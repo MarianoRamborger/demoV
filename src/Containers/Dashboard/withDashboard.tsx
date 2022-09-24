@@ -3,6 +3,7 @@ import {useEffect} from 'react'
 import { getData } from "../../lib/services"
 import { dailyDay, hourlyDay } from "../../interfaces/day"
 import { dateFormatter, timeFormatter } from "../../lib/utils"
+import { currentWeather } from "../../interfaces/current"
 
 const withDashboard = Component => props => {
     const [context, dispatch] : any = useCtxValue()
@@ -12,7 +13,6 @@ const withDashboard = Component => props => {
         dispatch({type:"setLoadingData", value: true})
         let weatherData = await getData(context.selectedPosition.lng, context.selectedPosition.lat)
       
-        let currentData: object[] = []
         let hourlyDataByDay: any[] = [[],[],[],[],[],[],[]]
         let dailyData : object[] = []
      
@@ -46,6 +46,15 @@ const withDashboard = Component => props => {
             temp: weatherData.hourly.temperature_2m[n]
           }
           hourlyDataByDay[(n===0?0:Math.floor(n/24))].push(hourlyDay)
+          }
+
+          let {date,hour} = timeFormatter(weatherData.current_weather.time, false)
+          let currentData : currentWeather = {
+            date : date,
+            hour: hour,
+            weatherCode: weatherData.current_weather.weathercode,
+            temperature: weatherData.current_weather.temperature,
+            location:  weatherData.timezone
           }
           
         dispatch({type: "setWeatherData", data: {currentData,hourlyDataByDay,dailyData} })

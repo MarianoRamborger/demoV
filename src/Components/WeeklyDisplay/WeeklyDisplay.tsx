@@ -1,6 +1,6 @@
-import { AreaGraph } from "../../../Components"
+import { AreaGraph } from "./.."
 
-const WeeklyView = ({loading, dataError, weatherData}) => {
+const WeeklyDisplay = ({loading, dataError, weatherData}) => {
   return <div className="weekly-view-div">
     
     <AreaGraph loading={loading} dataset={weatherData.dailyData} xKey="time" areaKey="tempAmp"/>
@@ -15,4 +15,4 @@ const WeeklyView = ({loading, dataError, weatherData}) => {
   </div>  
 }
 
-export default WeeklyView
+export default WeeklyDisplay

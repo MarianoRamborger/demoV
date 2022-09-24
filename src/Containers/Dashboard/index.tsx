@@ -1,8 +1,8 @@
 import withDashboard from "./withDashboard"
-import { Map, ControlPanel } from "../../Components"
+import { Map, WeeklyDisplay, DailyDisplay, CurrentDisplay } from "../../Components"
 import { SelectedData } from "../../lib/enums/selectedData"
-import {WeeklyView, DailyView, NowView} from './DataViews'
 
+//TODO CLAVAR LOS BOUNDS DEL MAPA. ASI TE PODES IR A CUALQUIER LADO Y TIRA CUALQUIER LONGLAT
 
 const Dashboard = ({context,dispatch}) => {
   const {loadingData, weatherData, dataError, selectedData} = context
@@ -16,12 +16,15 @@ const Dashboard = ({context,dispatch}) => {
 
       <div className="upper-pannels-div"> 
         <Map />
-        <ControlPanel dispatch={dispatch} selectedData={selectedData}/>
+        <CurrentDisplay loading={loadingData} dataError={dataError} weatherData={weatherData} />
+        {/* <ControlPanel dispatch={dispatch} selectedData={selectedData}/> */}
       </div>
 
-    {selectedData === SelectedData.Weekly && <WeeklyView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
-    {selectedData === SelectedData.Daily && <DailyView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
-    {selectedData === SelectedData.Now && <NowView loading={loadingData} dataError={dataError} weatherData={weatherData}/>}
+      { 
+        selectedData === SelectedData.Weekly
+        ? <WeeklyDisplay loading={loadingData} dataError={dataError} weatherData={weatherData}/>
+        : <DailyDisplay loading={loadingData} dataError={dataError} weatherData={weatherData}/>
+      }
       
     <button onClick={()=> {console.log(context)}}> CONTEXT </button>
 

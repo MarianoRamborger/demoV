@@ -6,7 +6,7 @@ const ControlPanel = ({dispatch,selectedData}) => {
   return <div className="control-panel-div">
 
       <ButtonGroup style={{marginTop: 15}}>
-        <Button variant={selectedData === SelectedData.Now ? "contained" : "outlined"} color={"success"} onClick={()=>dispatch({type:"setSelectedData", value:SelectedData.Now})}> Now </Button>
+
         <Button variant={selectedData === SelectedData.Daily ? "contained" : "outlined"} color={"success"} onClick={()=>dispatch({type:"setSelectedData", value:SelectedData.Daily})}> Daily </Button>
         <Button variant={selectedData === SelectedData.Weekly ? "contained" : "outlined"} color={"success"} onClick={()=>dispatch({type:"setSelectedData", value:SelectedData.Weekly})}> Weekly </Button>
       </ButtonGroup>

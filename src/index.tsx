@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <CtxProvider>
           <Routes>
@@ -21,7 +21,7 @@ root.render(
           </Routes>
         </CtxProvider>
       </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 

@@ -1,6 +1,6 @@
-import { LineGraph } from "../../../Components"
+import { LineGraph } from "./.."
 
-const DailyView = ({loading, dataError, weatherData}) => {
+const DailyDisplay = ({loading, dataError, weatherData}) => {
   return <div className="daily-view-div">     
     
     <LineGraph loading={loading} dataset={weatherData.hourlyDataByDay[0]} xKey="hour" lineKeys={["temp"]} />            
@@ -16,4 +16,4 @@ const DailyView = ({loading, dataError, weatherData}) => {
   </div>
 }
 
-export default DailyView
+export default DailyDisplay
