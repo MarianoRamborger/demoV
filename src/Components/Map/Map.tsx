@@ -25,7 +25,7 @@ const Map = () => {
     <div className="map-container-div">
 
   <MapContainer center={{lat: 49.255866, lng: -123.236380}} 
-  zoom={13} maxBoundsViscosity={1} maxBounds={new LatLngBounds([[-90,-180],[90,180]])}  >
+  zoom={13} maxBoundsViscosity={1} maxBounds={new LatLngBounds([[-90,-180],[90,180]])} minZoom={1}  >
   
   <TileLayer
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
