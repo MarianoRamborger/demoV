@@ -1,5 +1,5 @@
 import {createContext, useContext, useReducer } from 'react'
-import { SelectedData } from '../lib/enums/selectedData'
+import { SelectedDataMode } from '../lib/enums/selectedData'
 
 const Ctx = createContext({})
 
@@ -19,7 +19,8 @@ export const CtxProvider = ({children}) => {
           dailyData: [],
           hourlyDataByDay: [],
         },
-        selectedData: SelectedData.Weekly
+        selectedDataMode: SelectedDataMode.Weekly,
+        selectedDataDay: 0
         
         
     }
@@ -40,7 +41,8 @@ export const CtxProvider = ({children}) => {
           case "setLoadingData": {
             return {
               ...state,
-              loadingData: action.value
+              loadingData: action.value,
+              selectedDataDay: 0
             }
           }
 
@@ -51,12 +53,21 @@ export const CtxProvider = ({children}) => {
             }
           }
 
-          case "setSelectedData": {
+          case "setSelectedDataMode": {
             return {
               ...state,
-              selectedData: action.value
+              selectedDataMode: action.value
             }
           }
+
+          case "setSelectedDataDay": {
+            return {
+              ...state,
+              selectedDataDay: action.value
+            }
+          }
+
+        
 
 
             default: {

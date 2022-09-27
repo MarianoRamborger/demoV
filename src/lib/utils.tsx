@@ -12,3 +12,13 @@ export const hourExtractor = (time:string) => {
   let timeUnit = time.split(/(:)/)
   return parseInt(timeUnit[0]) 
 }
+
+export const locationFormatter = (location:string) => {
+  let locArr = location.split("/")
+  let loc;
+  if (locArr.length > 1) {
+    loc = locArr[1]
+  } else loc = locArr[0]
+  return loc.replace("_", " ")
+
+} 

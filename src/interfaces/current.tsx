@@ -3,6 +3,7 @@ export interface currentWeather {
   temperature: number,
   hour: string,
   weatherCode: number
-  location?: string
+  windspeed?: number,
+  location?: string,
 
 }

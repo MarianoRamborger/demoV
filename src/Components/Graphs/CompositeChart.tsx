@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material';
 import { ResponsiveContainer , CartesianGrid, XAxis, YAxis, Area, Tooltip } from 'recharts';
 
 const CompositeGraph = ({
@@ -17,12 +16,10 @@ const CompositeGraph = ({
     justifyContent: "center"
   }}> 
 
-  {loading
-  ? <CircularProgress color='primary'/>  
-  : <ResponsiveContainer width="100%" height="80%">
+   <ResponsiveContainer width="100%" height="80%">
       <CartesianGrid strokeDasharray="3 3"/>
     </ResponsiveContainer>
-  }
+  
   
   
   

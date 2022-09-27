@@ -4,7 +4,8 @@ import {
          BsFillCloudSnowFill,
          BsFillSunFill,
          BsFillMoonFill,
-         BsFillCloudyFill
+         BsFillCloudyFill,
+         BsWind
         } from 'react-icons/bs';
 
 import {} from 'react-icons/bs';
@@ -20,7 +21,7 @@ const IconFactory = ({code = 0, size = 32,  hour = 0, color=""}) => {
           return <BsFillSunFill size={32} fill={color || 'yellow'} />
       }  else return  <BsFillMoonFill size={32} fill={color || 'yellow'} />
 
-    case 1: //Clouding, increasingly
+    case 1: //Cloudy, increasingly
     case 2:
     case 3: return <BsFillCloudyFill size={32} fill={color || 'gray'} />
 
@@ -50,7 +51,9 @@ const IconFactory = ({code = 0, size = 32,  hour = 0, color=""}) => {
     case 99:  return <BsFillCloudLightningRainFill size={32} fill={color || '#686868'} />
 
 
-    default: return <BsFillCloudyFill />
+    case 1000: return <BsWind size={32} fill={color || '#cabec0'} />
+
+    default: return <BsFillCloudyFill size={32} fill={color || 'gray'}/>
   }
 
 }

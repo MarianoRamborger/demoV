@@ -2,8 +2,9 @@ import { useCtxValue } from "../../Context/context"
 import {useEffect} from 'react'
 import { getData } from "../../lib/services"
 import { dailyDay, hourlyDay } from "../../interfaces/day"
-import { dateFormatter, timeFormatter } from "../../lib/utils"
+import { dateFormatter, locationFormatter, timeFormatter } from "../../lib/utils"
 import { currentWeather } from "../../interfaces/current"
+import { SelectedDataMode } from "../../lib/enums/selectedData"
 
 const withDashboard = Component => props => {
     const [context, dispatch] : any = useCtxValue()
@@ -54,7 +55,8 @@ const withDashboard = Component => props => {
             hour: hour,
             weatherCode: weatherData.current_weather.weathercode,
             temperature: weatherData.current_weather.temperature,
-            location:  weatherData.timezone
+            windspeed: weatherData.current_weather.windspeed,
+            location:  locationFormatter(weatherData.timezone) 
           }
           
         dispatch({type: "setWeatherData", data: {currentData,hourlyDataByDay,dailyData} })
@@ -64,9 +66,22 @@ const withDashboard = Component => props => {
     },
     [context.selectedPosition, dispatch])
 
+    const setSelectedMode = (mode:SelectedDataMode) => {
+      dispatch({type:"setSelectedDataMode", value:mode})
+    }
+
+    const setSelectedDay = (day:number) => {
+      dispatch({
+        type: 'setSelectedDataDay',
+        value: day
+      })
+    }
+
     const dashboardActions = {
         context,
-        dispatch
+        dispatch,
+        setSelectedMode,
+        setSelectedDay
     }
 
     return <Component  {...dashboardActions} />

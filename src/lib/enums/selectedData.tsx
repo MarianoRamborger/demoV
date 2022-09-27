@@ -1,5 +1,5 @@
 
-export enum SelectedData {
+export enum SelectedDataMode {
   Daily,
   Weekly,
   Now
