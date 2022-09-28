@@ -1,41 +1,44 @@
-import { AreaGraph } from "./.."
 import { CircularProgress } from "@mui/material"
 import { Button, ButtonGroup } from '@mui/material';
 import { SelectedDataMode } from "../../lib/enums/selectedData";
+import RadialBarGraph from "../Graphs/RadialBarChart";
 
 //Get selection buttons here
 
 
-const WeeklyDisplay = ({loading, setSelectedMode, selectedDataMode, dataError, weatherData}) => {
+
+const WeeklyGraphR = ({loading, setSelectedMode, selectedDataMode, dataError, weatherData}) => {
+  let data = []
+  if (weatherData.dailyData) {
+    weatherData.dailyData.forEach((day) => {   
+      let newDay = {
+        ...day.shortwaveRad,
+      }
+      data.push(newDay)
+    })  
+  }
+  
   return <div className="graphs-commmons-div">
     
     {loading 
      ? <CircularProgress color='primary'/>
      : 
-        <div className="left-graph-div"> 
-    
-          <ButtonGroup style={{marginTop: 30}}>
+        <div className="right-graph-div"> 
+
+          <p className="section-title"> Weekly shortwave radiation  </p>
+
+          <ButtonGroup style={{marginTop: 15}}  >
             <Button variant={selectedDataMode === SelectedDataMode.Daily ? "contained" : "outlined"} color={"success"} onClick={()=>setSelectedMode(SelectedDataMode.Daily)}> Daily </Button>
             <Button variant={selectedDataMode === SelectedDataMode.Weekly ? "contained" : "outlined"} color={"success"} onClick={()=>setSelectedMode(SelectedDataMode.Weekly)}> Weekly </Button>
           </ButtonGroup>
-         
-
-          <AreaGraph loading={loading} dataset={weatherData.dailyData} xKey="time" areaKey="tempAmp"
-          width={'85%'}
-        />
+        
+    <RadialBarGraph dataset={data}/>
       
      </div>
      
     }
 
-    
-
-    <style>
-    {`
-  
-    `}
-    </style>
   </div>  
 }
 
-export default WeeklyDisplay
+export default WeeklyGraphR

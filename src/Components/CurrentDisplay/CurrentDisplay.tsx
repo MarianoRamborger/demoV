@@ -9,7 +9,7 @@ const CurrentDisplay = ({loading, dataError, weatherData}) => {
   return <div className="current-weather-display"> 
 
     {loading 
-    ? <CircularProgress color='primary'/> 
+    ? <div style={{display: "flex", height: "100%", alignItems: "center"}}> <CircularProgress color='primary'/> </div> 
     : <div className="weather-panel-div"> 
       
         <h2 style={{fontSize: 36, marginBottom: 12}}> {weatherData.currentData.location } </h2>
@@ -45,12 +45,12 @@ const CurrentDisplay = ({loading, dataError, weatherData}) => {
   <style>
     {`
       .current-weather-display {
-        width: 365px;
-        height: 260px;
+        min-height: 260px;
         display: flex;
         flex-flow: column nowrap;
-        align-items: center;
+        align-items: center !important;
         background-color: ${COLORS.componentBackground};
+        border-radius: 5px;
       }   
 
       .weather-panel-div {

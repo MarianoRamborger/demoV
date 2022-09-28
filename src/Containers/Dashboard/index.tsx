@@ -1,33 +1,35 @@
 import withDashboard from "./withDashboard"
-import { Map, WeeklyDisplay, DailyDisplay, CurrentDisplay } from "../../Components"
+import { Map, WeeklyGraphL, DailyGraphL, CurrentDisplay, WeeklyGraphR, DailyGraphR } from "../../Components"
 import { SelectedDataMode } from "../../lib/enums/selectedData"
-import { Button, ButtonGroup } from '@mui/material';
 import { COLORS } from "../../Constants/colors";
-
-//TODO CLAVAR LOS BOUNDS DEL MAPA. ASI TE PODES IR A CUALQUIER LADO Y TIRA CUALQUIER LONGLAT
 
 const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
   const {loadingData, weatherData, dataError, selectedDataDay, selectedDataMode} = context
 
 	return (
 		<div className="dashboard-div">  
-
+  
 		<div className="dashboard-comps-div">
 
-      <div className="left-panels-div" style={{flex: 4, marginRight: 15}}>
+      <div className="left-panels-div" style={{flex: 3.9, marginRight: 15}}>
           <div> <Map /> </div>
         
           { 
             selectedDataMode === SelectedDataMode.Weekly
-            ? <WeeklyDisplay loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  dataError={dataError} weatherData={weatherData}/>
-            : <DailyDisplay setSelectedMode={setSelectedMode}  selectedDataMode={selectedDataMode}  setSelectedDay={setSelectedDay} loading={loadingData} dataError={dataError} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
+            ? <WeeklyGraphL loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  dataError={dataError} weatherData={weatherData}/>
+            : <DailyGraphL setSelectedMode={setSelectedMode}  selectedDataMode={selectedDataMode}  setSelectedDay={setSelectedDay} loading={loadingData} dataError={dataError} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
           }        
   
       </div>
 
-      <div className="right-panels-div" style={{flex: 1}} >
+      <div className="right-panels-div" style={{flex: 2}} >
          <CurrentDisplay loading={loadingData} dataError={dataError} weatherData={weatherData} />
-         <button onClick={()=> {console.log(context)}}> CONTEXT </button>
+         
+         { 
+            selectedDataMode === SelectedDataMode.Weekly
+            ? <WeeklyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  dataError={dataError} weatherData={weatherData} />
+            : <DailyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}   dataError={dataError} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
+         }
       </div>
 
 
@@ -51,7 +53,7 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
 				`    
 					.dashboard-div {
 						min-height: 100vh;
-            max-width: 1300px;
+            max-width: 1400px;
            
 					}
 
@@ -60,39 +62,58 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
 					}
 
 					.dashboard-comps-div {
-            border: 2px solid magenta;
-            width: 1300px;
+            width: 1400px;
 						display: flex;
 						flex-flow: row nowrap;
             justify-content: space-between;
             margin-top: 20px;
+            
             
 					}
 
           .graphs-commmons-div {
             width: 100%;
             margin-top: 20px;
-            min-height: 450px;
             background-color: ${COLORS.componentBackground};
             display: flex;
             flex-flow: column wrap;
             align-content: center;
             justify-content: center;
+            min-height: 450px;
+            border-radius: 5px;
           }
 
    
           .left-panels-div, .right-panels-div {
             display: flex;
             flex-flow: column wrap;
-            border: 2px solid yellow;
+           
           }
 
-          .left-graph-div {
+          .right-panels-div { 
+            max-width: 400px;
+
+          }
+
+          .left-graph-div, .right-graph-div {
             display: flex;
             flex-flow: column wrap;
             align-content: center;
             align-items: center;
             width: 100%;
+            
+         
+          }
+
+          .section-title {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 3px;
+            margin-top: 5px;
+          }
+
+          p,h1,h2,h3,h4,h5,h6 {
+            color: ${COLORS.textPrimary};
           }
 					
 			

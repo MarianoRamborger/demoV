@@ -1,4 +1,5 @@
 import { ResponsiveContainer ,AreaChart, CartesianGrid, XAxis, YAxis, Area, Tooltip } from 'recharts';
+import { GRAPHCOLORS } from '../../Constants/colors';
 
 // const AreaGraph = ({context}) => {
 const AreaGraph = ({
@@ -17,13 +18,15 @@ const AreaGraph = ({
       alignItems: "center",
       justifyContent: "center"
     }}>
+
+  
   
        <ResponsiveContainer  width="100%" height="85%"> 
           <AreaChart data={dataset}  >
           <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey={xKey} tick={{fill: 'red'}} tickLine={{stroke: 'yellow'}} axisLine={{stroke:"red"}} />
-          <YAxis dataKey={yKey} fill={"red"}  />
-          <Area dataKey={areaKey} stroke={"color"} fill={color} /> 
+          <XAxis dataKey={xKey} tick={{fill: "black"}} tickLine={{stroke: 'black'}} axisLine={{stroke:"black"}} />
+          <YAxis dataKey={yKey} fill={"black"}  />
+          <Area dataKey={areaKey} stroke={GRAPHCOLORS.dataPrimary} fill={GRAPHCOLORS.dataPrimary} /> 
           <Tooltip />
           </AreaChart>
         </ResponsiveContainer>

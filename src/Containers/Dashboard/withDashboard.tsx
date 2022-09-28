@@ -5,6 +5,7 @@ import { dailyDay, hourlyDay } from "../../interfaces/day"
 import { dateFormatter, locationFormatter, timeFormatter } from "../../lib/utils"
 import { currentWeather } from "../../interfaces/current"
 import { SelectedDataMode } from "../../lib/enums/selectedData"
+import { RADCOLORS } from "../../Constants/colors"
 
 const withDashboard = Component => props => {
     const [context, dispatch] : any = useCtxValue()
@@ -14,14 +15,16 @@ const withDashboard = Component => props => {
         dispatch({type:"setLoadingData", value: true})
         let weatherData = await getData(context.selectedPosition.lng, context.selectedPosition.lat)
       
-        let hourlyDataByDay: any[] = [[],[],[],[],[],[],[]]
+        let hourlyDataByDay: any[] = [[],[],[],[],[],[],[]] //TODO init it better
         let dailyData : object[] = []
-     
+       
         for (let i = 0; i < weatherData.daily.time.length; i++) {
+          let time = dateFormatter(weatherData.daily.time[i])
           let day : dailyDay = {
-            time: dateFormatter(weatherData.daily.time[i]),
+            time: time,
             tempAmp: [weatherData.daily.temperature_2m_max[i],weatherData.daily.temperature_2m_min[i]],
-            appTempAmp: [weatherData.daily.apparent_temperature_max[i],weatherData.daily.apparent_temperature_min[i]]
+            appTempAmp: [weatherData.daily.apparent_temperature_max[i],weatherData.daily.apparent_temperature_min[i]],
+            shortwaveRad: {name: time, shortwaveRad: weatherData.daily.shortwave_radiation_sum[i], fill: RADCOLORS[i]}
           }
           dailyData.push(day)
         }
@@ -44,8 +47,10 @@ const withDashboard = Component => props => {
           let hourlyDay : hourlyDay = {
             date: date,
             hour: hour,
-            temp: weatherData.hourly.temperature_2m[n]
+            temp: weatherData.hourly.temperature_2m[n],
+            shortwaveRad: weatherData.hourly.shortwave_radiation[n]
           }
+
           hourlyDataByDay[(n===0?0:Math.floor(n/24))].push(hourlyDay)
           }
 
@@ -56,7 +61,7 @@ const withDashboard = Component => props => {
             weatherCode: weatherData.current_weather.weathercode,
             temperature: weatherData.current_weather.temperature,
             windspeed: weatherData.current_weather.windspeed,
-            location:  locationFormatter(weatherData.timezone) 
+            location:  locationFormatter(weatherData.timezone),
           }
           
         dispatch({type: "setWeatherData", data: {currentData,hourlyDataByDay,dailyData} })

@@ -25,7 +25,7 @@ const Map = () => {
   return (
     <div className="map-container-div">
 
-      <MapContainer center={{lat: 49.255866, lng: -123.236380}} 
+    <MapContainer center={{lat: 49.255866, lng: -123.236380}} 
        zoom={13} maxBoundsViscosity={1} maxBounds={new LatLngBounds([[-90,-180],[90,180]])} minZoom={1}  >
   
   <TileLayer
@@ -39,12 +39,14 @@ const Map = () => {
 
       .map-container-div {
         background-color: ${COLORS.componentBackground};
+       
 
         
       }
       .leaflet-container{
         height: 260px;
         z-index: 1;
+         border-radius: 5px;
 
       } 
       
