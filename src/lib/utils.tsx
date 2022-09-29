@@ -19,6 +19,25 @@ export const locationFormatter = (location:string) => {
   if (locArr.length > 1) {
     loc = locArr[1]
   } else loc = locArr[0]
+  
   return loc.replace("_", " ")
-
 } 
+
+export const legendFormatter = (value:string) => {
+  switch(value.toLowerCase()) {
+    case "temp": return "Temperature"
+    case "apptemp": return "Apparent Temperature" 
+    case "tempamp" : return "Temperature amplitude"
+    case "apptempamp" : return "Apparent temperature amplitude"
+    case "avgrad": return "Average Radiation (W/m²)"
+    default: return
+  }
+}
+
+export const valueFormatter = (value: any, type: string) => {
+  
+    switch(type) {
+      case "range" : return `${value[1]}°C ~ ${value[0]}°C`
+    }
+
+}

@@ -1,15 +1,17 @@
-import { ResponsiveContainer, Bar, CartesianGrid, Tooltip, BarChart, YAxis, XAxis } from 'recharts';
+import {
+  ResponsiveContainer, Bar, CartesianGrid, 
+  Tooltip, BarChart, Legend, XAxis 
+  } from 'recharts';
+import { legendFormatter, valueFormatter } from '../../lib/utils';
 
 const BarGraph = ({
-  error=false, 
-  width="100%", height=350, color= "#8884d8", 
-  dataset, xKey="", yKey="", lineKeys=[] 
-
-}) => {
+  barKeys, dataset, 
+  width="100%", height=270
+  }) => {
  
   return (<div style={{
     width: width,
-    height: 300,
+    height: height,
     borderRadius: 10,
     marginTop: 20,
     marginBottom: 28,
@@ -19,29 +21,30 @@ const BarGraph = ({
     justifyContent: "center"
   }}> 
 
-   <ResponsiveContainer>    
-    <BarChart data={dataset} layout="horizontal">
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey={"hours"}   />
-    <Tooltip />
-    <Bar dataKey="avgRad" fill="red"  />
-
-    </BarChart>
-
+   <ResponsiveContainer width="100%" height="100%">    
+      <BarChart data={dataset} layout="horizontal">
+        <CartesianGrid strokeDasharray="3 3" />
+        <Legend  
+          verticalAlign="top" 
+          height={30}  
+          align={"right"}
+          formatter={(value) => { return legendFormatter(value) }}
+          />
+        <XAxis dataKey={"hours"}   />
+        <Tooltip 
+          formatter={(value, name) => {
+          return [ value, legendFormatter(name.toString())
+          ]}}
+        />
+        { barKeys.map((barKey,index) => {
+        return <Bar dataKey={barKey.value} 
+          fill={barKey.color}  
+          key={index+Math.random()} 
+          />
+        })}
+      </BarChart>
     </ResponsiveContainer>
-
-    
-  
-  <style>{`
-  .recharts-radial-bar-background-sector {
-    padding-top: 30px !important;
-  }
-  `}</style>
-  
-  
-
   </div>)
-
 }
 
 export default BarGraph

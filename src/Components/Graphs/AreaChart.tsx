@@ -1,12 +1,13 @@
-import { ResponsiveContainer ,AreaChart, CartesianGrid, XAxis, YAxis, Area, Tooltip } from 'recharts';
-import { GRAPHCOLORS } from '../../Constants/colors';
+import { 
+  ResponsiveContainer, AreaChart, CartesianGrid, 
+  XAxis, YAxis, Area, Tooltip, Legend
+} from 'recharts';
+import { legendFormatter, valueFormatter } from '../../lib/utils';
 
-// const AreaGraph = ({context}) => {
 const AreaGraph = ({
-  loading= true, error=false, 
-  width='100%', height=350, color= "#8884d8",
-  dataset, xKey ="", yKey="", areaKey="" 
-
+  dataset, areaKeys,
+  width='100%', height=265,
+  xKey="", yKey=""
 }) => {
   return (
     <div style={{
@@ -19,21 +20,34 @@ const AreaGraph = ({
       justifyContent: "center"
     }}>
 
-  
-  
-       <ResponsiveContainer  width="100%" height="85%"> 
-          <AreaChart data={dataset}  >
-          <CartesianGrid strokeDasharray="3 3"/>
-          <XAxis dataKey={xKey} tick={{fill: "black"}} tickLine={{stroke: 'black'}} axisLine={{stroke:"black"}} />
-          <YAxis dataKey={yKey} fill={"black"}  />
-          <Area dataKey={areaKey} stroke={GRAPHCOLORS.dataPrimary} fill={GRAPHCOLORS.dataPrimary} /> 
-          <Tooltip />
-          </AreaChart>
-        </ResponsiveContainer>
-        
-  
-    </div>
+      <ResponsiveContainer  width="100%" height="100%"> 
+        <AreaChart data={dataset}  >
+        <CartesianGrid strokeDasharray="3 3"/>
+        <Legend  
+          height={30}  
+          align={"right"} 
+          formatter={(value) => { return legendFormatter(value) }}
+          />
 
+        <XAxis dataKey={xKey}/>
+        <YAxis dataKey={yKey} tickFormatter={(value) => {return `${value}°C`}}/>
+          {areaKeys.map((area, index) => {
+          return <Area 
+            dataKey={area.value} 
+            stroke={area.color} 
+            fill={area.color} 
+            key={index+Math.random()} 
+            />
+          })}   
+        <Tooltip 
+          formatter={(value, name) => {
+            return [
+              valueFormatter(value, "range"), legendFormatter(name.toString())
+            ]}}
+          />
+        </AreaChart>
+      </ResponsiveContainer>        
+    </div>
   )
 }
 

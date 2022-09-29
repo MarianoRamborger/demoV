@@ -13,7 +13,7 @@ export const CtxProvider = ({children}) => {
           lat: 49.255866 
         },
         loadingData: true,
-        dataError: false,
+        errorCode: null,
         weatherData : {
           currentData: [],
           dailyData: [],
@@ -21,8 +21,7 @@ export const CtxProvider = ({children}) => {
         },
         selectedDataMode: SelectedDataMode.Weekly,
         selectedDataDay: 0
-        
-        
+                
     }
 
     const reducer = (state,action) => {
@@ -42,7 +41,8 @@ export const CtxProvider = ({children}) => {
             return {
               ...state,
               loadingData: action.value,
-              selectedDataDay: 0
+              selectedDataDay: 0,
+              errorCode: null
             }
           }
 
@@ -67,8 +67,13 @@ export const CtxProvider = ({children}) => {
             }
           }
 
-        
-
+          case "setErrorCode" : {
+            return {
+              ...state,
+              errorCode : action.value,
+              loadingData: false
+            }
+          }
 
             default: {
                 return {

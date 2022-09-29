@@ -4,47 +4,33 @@ import { SelectedDataMode } from "../../lib/enums/selectedData"
 import { COLORS } from "../../Constants/colors";
 
 const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
-  const {loadingData, weatherData, dataError, selectedDataDay, selectedDataMode} = context
+  const {loadingData, weatherData, errorCode, selectedDataDay, selectedDataMode} = context
 
 	return (
 		<div className="dashboard-div">  
-  
-		<div className="dashboard-comps-div">
 
-      <div className="left-panels-div" style={{flex: 3.9, marginRight: 15}}>
-          <div> <Map /> </div>
+		  <div className="dashboard-comps-div">
+
+        <div className="left-panels-div" style={{flex: 3.9, marginRight: 15}}>
+          <Map /> 
         
           { 
             selectedDataMode === SelectedDataMode.Weekly
-            ? <WeeklyGraphL loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  dataError={dataError} weatherData={weatherData}/>
-            : <DailyGraphL setSelectedMode={setSelectedMode}  selectedDataMode={selectedDataMode}  setSelectedDay={setSelectedDay} loading={loadingData} dataError={dataError} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
+            ? <WeeklyGraphL loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  errorCode={errorCode} weatherData={weatherData}/>
+            : <DailyGraphL setSelectedMode={setSelectedMode}  selectedDataMode={selectedDataMode}  setSelectedDay={setSelectedDay} loading={loadingData} errorCode={errorCode} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
           }        
   
-      </div>
+        </div>
 
-      <div className="right-panels-div" style={{flex: 2}} >
-         <CurrentDisplay loading={loadingData} dataError={dataError} weatherData={weatherData} />
+        <div className="right-panels-div" style={{flex: 2}} >
+          <CurrentDisplay loading={loadingData} errorCode={errorCode} weatherData={weatherData} />
          
-         { 
+          { 
             selectedDataMode === SelectedDataMode.Weekly
-            ? <WeeklyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  dataError={dataError} weatherData={weatherData} />
-            : <DailyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}   dataError={dataError} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
-         }
-      </div>
-
-
-
-      {/* <div className="mode-selection-buttons" style={{width: "100%", display: "flex", justifyContent: "center"}}>
-        <ButtonGroup style={{marginTop: 30}}>
-          <Button variant={selectedDataMode === SelectedDataMode.Daily ? "contained" : "outlined"} color={"success"} onClick={()=>dispatch({type:"setSelectedDataMode", value:SelectedDataMode.Daily})}> Daily </Button>
-          <Button variant={selectedDataMode === SelectedDataMode.Weekly ? "contained" : "outlined"} color={"success"} onClick={()=>dispatch({type:"setSelectedDataMode", value:SelectedDataMode.Weekly})}> Weekly </Button>
-        </ButtonGroup>
-      </div> */}
-
-
-      
-      
-   
+            ? <WeeklyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}  errorCode={errorCode} weatherData={weatherData} />
+            : <DailyGraphR loading={loadingData} setSelectedMode={setSelectedMode} selectedDataMode={selectedDataMode}   errorCode={errorCode} weatherData={weatherData} selectedDataDay={selectedDataDay}/>
+          }
+        </div>
 
 		</div>
 		
@@ -53,8 +39,7 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
 				`    
 					.dashboard-div {
 						min-height: 100vh;
-            max-width: 1400px;
-           
+            max-width: 1200px;       
 					}
 
 					.dashboard-div h2 {
@@ -62,24 +47,22 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
 					}
 
 					.dashboard-comps-div {
-            width: 1400px;
+            width: 1200px;
 						display: flex;
 						flex-flow: row nowrap;
             justify-content: space-between;
             margin-top: 20px;
-            
-            
 					}
 
           .graphs-commmons-div {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
             background-color: ${COLORS.componentBackground};
             display: flex;
             flex-flow: column wrap;
             align-content: center;
             justify-content: center;
-            min-height: 450px;
+            min-height: 360px;
             border-radius: 5px;
           }
 
@@ -87,12 +70,11 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
           .left-panels-div, .right-panels-div {
             display: flex;
             flex-flow: column wrap;
-           
+  
           }
 
           .right-panels-div { 
             max-width: 400px;
-
           }
 
           .left-graph-div, .right-graph-div {
@@ -101,8 +83,6 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
             align-content: center;
             align-items: center;
             width: 100%;
-            
-         
           }
 
           .section-title {
@@ -115,15 +95,10 @@ const Dashboard = ({context,dispatch, setSelectedMode, setSelectedDay}) => {
           p,h1,h2,h3,h4,h5,h6 {
             color: ${COLORS.textPrimary};
           }
-					
-			
-			
 				`
 				}
 			</style>
 		</div>
-			)
-		}
-		
-		
+			)}
+			
 		export default withDashboard(Dashboard)

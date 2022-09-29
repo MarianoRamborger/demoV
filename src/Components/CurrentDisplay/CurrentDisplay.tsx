@@ -2,42 +2,67 @@ import IconFactory from "../IconFactory/IconFactory"
 import { CircularProgress } from '@mui/material';
 import { hourExtractor } from "../../lib/utils";
 import { COLORS } from "../../Constants/colors";
+import {ErrorFallback} from '..'
 
-const CurrentDisplay = ({loading, dataError, weatherData}) => {
-
-  
+const CurrentDisplay = ({loading, errorCode, weatherData}) => {
+  const  {  date, hour, location, temperature, windspeed, sunrise, sunset } = weatherData.currentData
+ 
   return <div className="current-weather-display"> 
-
-    {loading 
-    ? <div style={{display: "flex", height: "100%", alignItems: "center"}}> <CircularProgress color='primary'/> </div> 
-    : <div className="weather-panel-div"> 
+    {
+      loading 
+        ? <div style={{display: "flex", height: "100%", alignItems: "center"}}> <CircularProgress color='primary'/> </div> 
+        : errorCode 
+          ? <ErrorFallback  errorCode={errorCode}/>
+          : <div className="weather-panel-div"> 
       
-        <h2 style={{fontSize: 36, marginBottom: 12}}> {weatherData.currentData.location } </h2>
-        
-        <div className="date-hour-div" style={{width: "100%"}}>
-          <p style={{fontSize: 30, width: "100%", marginTop: 5}}> {weatherData.currentData.date} - {weatherData.currentData.hour} </p> 
-        </div>
+              <h2 style={{fontSize: 34, marginBottom: 12, marginTop: 0}}> 
+                {location} 
+              </h2>
+          
+              
+              <div className="date-hour-div" >
+                <IconFactory code={1001} size={20} /> 
+                <p> 
+                  {date}  -  {hour} 
+                </p>
+                <IconFactory code={1002} size={20} /> 
+              </div>
+             
+              <div className="flexh-div"> 
+                <div>
+                  <IconFactory code={1003} size={24} /> 
+                  <p  className="current-minor-p" style={{paddingLeft: 10}}> 
+                  {temperature}°C 
+                  </p>
+              </div>
 
+              <div>
+                <p className="current-minor-p" style={{paddingRight: 10}}> 
+                  {windspeed} Km/h 
+                </p> 
+                <IconFactory code={1000} size={24} hour={hourExtractor(hour)}/>              
+              </div>
+          
+            </div>
 
-        <div style={{display: "flex", width: "100%",  justifyContent: "space-around"  }}> 
-        <div style={{display: 'inherit', alignItems:'center'}}>
-          <IconFactory code={weatherData.currentData.weatherCode} size={32} 
-          hour={hourExtractor(weatherData.currentData.hour)} /> 
+            <div className="flexh-div"> 
+                <div>
+                  <IconFactory code={1004} size={24} /> 
+                  <p  className="current-minor-p" style={{paddingLeft: 10}}> 
+                  {sunrise}
+                  </p>
+              </div>
 
-          <p style={{fontSize: 32, marginTop: 5, marginBottom: 5, paddingLeft: 10}}> {weatherData.currentData.temperature}°C </p>
-        </div>
+              <div>
+                <p className="current-minor-p" style={{paddingRight: 10}}> 
+                  {sunset}
+                </p> 
+                <IconFactory code={1005} size={24} hour={hourExtractor(hour)}/>              
+              </div>
+          
+            </div>
 
-        <div style={{display: 'inherit', alignItems:'center'}}>
-          <IconFactory code={1000} size={32} 
-          hour={hourExtractor(weatherData.currentData.hour)} /> 
-
-          <p style={{fontSize: 32, marginTop: 5, marginBottom: 5, paddingLeft: 10}}> {weatherData.currentData.windspeed}Km/h </p>
-        </div>
-        
-        </div>
-
-    
-        </div>
+          </div>
      
     
 }
@@ -45,7 +70,7 @@ const CurrentDisplay = ({loading, dataError, weatherData}) => {
   <style>
     {`
       .current-weather-display {
-        min-height: 260px;
+        min-height: 200px;
         display: flex;
         flex-flow: column nowrap;
         align-items: center !important;
@@ -68,6 +93,43 @@ const CurrentDisplay = ({loading, dataError, weatherData}) => {
         margin-bottom: 5px;
         padding-left: 10px;
       }
+
+      .flexh-div {
+        display: flex; 
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 12px;
+        
+    
+      }
+
+      .flexh-div div {
+        display: inherit;
+        align-items: center;
+        text-align: center;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .date-hour-div {
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+      }
+
+      .date-hour-div p {
+        font-size: 26px;
+        margin: 0 10px;
+      }
+
+      .current-minor-p {
+        font-size: 24px;
+        margin: 5px 0;
+      }
+
     `}
   </style>
   </div>

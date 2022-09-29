@@ -8,7 +8,8 @@ export const COLORS = {
 }
 
 export const GRAPHCOLORS = {
-  dataPrimary: "#ffa300"
+  dataPrimary: "#ffa300",
+  dataSecondary: "#50e991"
 }
 
 export const RADCOLORS = [

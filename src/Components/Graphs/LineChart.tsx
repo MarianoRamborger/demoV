@@ -1,12 +1,16 @@
-import { ResponsiveContainer , LineChart, Line,  CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { 
+  ResponsiveContainer, LineChart, Line, 
+  CartesianGrid, XAxis, YAxis, Tooltip, Legend
+  } from 'recharts';
+import { legendFormatter } from '../../lib/utils';
 
 const LineGraph = ({
-  loading =true, error=false, 
-  width="100%", height=350, color= "#8884d8", 
-  dataset, xKey="", yKey="", lineKeys=[] 
+  dataset, lineKeys=[] ,
+  width="100%", height=265,  
+  xKey="" 
 
 }) => {
-  return (<div style={{
+  return <div style={{
     width: width,
     height: height,
     borderRadius: 10,
@@ -17,22 +21,31 @@ const LineGraph = ({
     justifyContent: "center"
   }}> 
 
-    <ResponsiveContainer width="100%" height="80%" >
-    <LineChart data={dataset} >
-    <CartesianGrid strokeDasharray="3 3"/>
-    <XAxis dataKey={xKey} />
-    <YAxis />
-    {lineKeys.map((key,index) => {
-      return <Line type="monotone" dataKey={key} key={index+Math.random()} stroke={color}/>
-    })}
-    <Tooltip/>
-    </LineChart>
-  </ResponsiveContainer>
-  
-  
-
-  </div>)
-
+    <ResponsiveContainer width="100%" height="100%" >
+      <LineChart data={dataset} >
+        <CartesianGrid strokeDasharray="3 3"/>
+        <Legend  
+          height={30}  
+          align={"right"}
+          formatter={(value) => { return legendFormatter(value) }} 
+          />
+        <XAxis dataKey={xKey} />
+        <YAxis tickFormatter={(value) => {return `${value}°C`}}/>
+        {lineKeys.map((line,index) => {
+          return <Line type="monotone" 
+          dataKey={line.value} 
+          key={index+Math.random()} 
+          stroke={line.color}/>
+        })}
+        <Tooltip 
+          formatter={(value, name) => {
+          return [
+              `${value}°C`, legendFormatter(name.toString())
+          ]}}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
 }
 
 export default LineGraph

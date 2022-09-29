@@ -1,14 +1,15 @@
-export interface dailyDay {
+export interface DailyDay {
   time: string,
   tempAmp: number[]
   appTempAmp: number[],
-  shortwaveRad: {}
+  shortwaveRad: {},
 
 }
 
-export interface hourlyDay {
+export interface HourlyDay {
   date: string,
   hour: string,
   temp: number,
+  appTemp: number,
   shortwaveRad: {}
 }

@@ -1,30 +1,37 @@
 import { useCtxValue } from "../../Context/context"
 import {useEffect} from 'react'
 import { getData } from "../../lib/services"
-import { dailyDay, hourlyDay } from "../../interfaces/day"
+import { DailyDay, HourlyDay } from "../../interfaces/day"
 import { dateFormatter, locationFormatter, timeFormatter } from "../../lib/utils"
-import { currentWeather } from "../../interfaces/current"
+import { CurrentWeather } from "../../interfaces/current"
 import { SelectedDataMode } from "../../lib/enums/selectedData"
 import { RADCOLORS } from "../../Constants/colors"
 
 const withDashboard = Component => props => {
     const [context, dispatch] : any = useCtxValue()
-
+    
     useEffect(() => {
       const fetchData = async () => {
         dispatch({type:"setLoadingData", value: true})
-        let weatherData = await getData(context.selectedPosition.lng, context.selectedPosition.lat)
-      
+        let {data, errors} : any = await getData(context.selectedPosition.lng, context.selectedPosition.lat)
+
+        if (errors.length > 0) {
+          dispatch({type: "setErrorCode", value: errors[0].errorCode})
+          return
+        }
+
         let hourlyDataByDay: any[] = [[],[],[],[],[],[],[]] //TODO init it better
         let dailyData : object[] = []
+
+        let {daily, hourly, current_weather} = data
        
-        for (let i = 0; i < weatherData.daily.time.length; i++) {
-          let time = dateFormatter(weatherData.daily.time[i])
-          let day : dailyDay = {
+        for (let i = 0; i < data.daily.time.length; i++) {
+          let time = dateFormatter(data.daily.time[i])
+          let day : DailyDay = {
             time: time,
-            tempAmp: [weatherData.daily.temperature_2m_max[i],weatherData.daily.temperature_2m_min[i]],
-            appTempAmp: [weatherData.daily.apparent_temperature_max[i],weatherData.daily.apparent_temperature_min[i]],
-            shortwaveRad: {name: time, shortwaveRad: weatherData.daily.shortwave_radiation_sum[i], fill: RADCOLORS[i]}
+            tempAmp: [daily.temperature_2m_max[i],daily.temperature_2m_min[i]],
+            appTempAmp: [daily.apparent_temperature_max[i],daily.apparent_temperature_min[i]],
+            shortwaveRad: {name: time, shortwaveRad: daily.shortwave_radiation_sum[i], fill: RADCOLORS[i]}
           }
           dailyData.push(day)
         }
@@ -41,27 +48,31 @@ const withDashboard = Component => props => {
         //? I decided on a, perhaps less elegant solution, but one which would avoid multiple iterations.
 
         //? so in the end I iterate thru a single array
-        for (let n = 0; n < weatherData.hourly.time.length; n++) {
-          let {date,hour} = timeFormatter(weatherData.hourly.time[n])
+        for (let n = 0; n < data.hourly.time.length; n++) {
+          let {date,hour} = timeFormatter(data.hourly.time[n])
 
-          let hourlyDay : hourlyDay = {
+          let hourlyDay : HourlyDay = {
             date: date,
             hour: hour,
-            temp: weatherData.hourly.temperature_2m[n],
-            shortwaveRad: weatherData.hourly.shortwave_radiation[n]
+            temp: hourly.temperature_2m[n],
+            appTemp: hourly.apparent_temperature[n],
+            shortwaveRad: hourly.shortwave_radiation[n],
           }
-
           hourlyDataByDay[(n===0?0:Math.floor(n/24))].push(hourlyDay)
+
           }
 
-          let {date,hour} = timeFormatter(weatherData.current_weather.time, false)
-          let currentData : currentWeather = {
+          let {date,hour} = timeFormatter(current_weather.time, false)
+          
+          let currentData : CurrentWeather = {
             date : date,
             hour: hour,
-            weatherCode: weatherData.current_weather.weathercode,
-            temperature: weatherData.current_weather.temperature,
-            windspeed: weatherData.current_weather.windspeed,
-            location:  locationFormatter(weatherData.timezone),
+            weatherCode: current_weather.weathercode,
+            temperature: current_weather.temperature,
+            windspeed: current_weather.windspeed,
+            location:  locationFormatter(data.timezone),
+            sunrise: daily.sunrise[0].split("T")[1],
+            sunset: daily.sunrise[1].split("T")[1]
           }
           
         dispatch({type: "setWeatherData", data: {currentData,hourlyDataByDay,dailyData} })
