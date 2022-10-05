@@ -1,8 +1,5 @@
-# My SPA Starter, with the bare essentials.
+A little demo I created for a job interview. 
 
-Of course, not every SPA is going to need context or RR, or even Main's particular structure.
+They were very interested in data visualization, so I made it a dashboard.
 
-But I figured I'd rather include them, since it's less time consuming to take them out (Looking at you, context).
-
-
-
+It lets you pick pretty much any place in the world, then retrieves data from an API, sorts its very fast, and then uses it to renders some colorful graphics.
